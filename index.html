@@ -351,12 +351,11 @@
   ],
   "pensionBands": [
     { "id": "t1", "from": 0, "to": 13259, "rate": 5.2 },
-    { "id": "t2", "from": 13260, "to": 26531, "rate": 6.5 },
-    { "id": "t3", "from": 26532, "to": 32129, "rate": 8.3 },
-    { "id": "t4", "from": 32130, "to": 43307, "rate": 9.8 },
-    { "id": "t5", "from": 43308, "to": 51292, "rate": 10 },
-    { "id": "t6", "from": 51293, "to": 67518, "rate": 11.6 },
-    { "id": "t7", "from": 67519, "to": null, "rate": 12.5 }
+    { "id": "t2", "from": 13260, "to": 28854, "rate": 6.5 },
+    { "id": "t3", "from": 28855, "to": 35155, "rate": 8.3 },
+    { "id": "t4", "from": 35156, "to": 52778, "rate": 9.8 },
+    { "id": "t5", "from": 52779, "to": 67668, "rate": 10.7 },
+    { "id": "t6", "from": 67669, "to": null, "rate": 12.5 }
   ],
   "taxBands": [
     { "id": "basic", "name": "Basic rate", "from": 0, "to": 37700, "rate": 20 },
@@ -669,6 +668,14 @@
     const storageKey = "nhs-paylip-calculator-reference-v5";
     const maxLines = 10;
     const months = ["April", "May", "June", "July", "August", "September", "October", "November", "December", "January", "February", "March"];
+    const pensionBands2026 = [
+      { id: "t1", from: 0, to: 13259, rate: 5.2 },
+      { id: "t2", from: 13260, to: 28854, rate: 6.5 },
+      { id: "t3", from: 28855, to: 35155, rate: 8.3 },
+      { id: "t4", from: 35156, to: 52778, rate: 9.8 },
+      { id: "t5", from: 52779, to: 67668, rate: 10.7 },
+      { id: "t6", from: 67669, to: null, rate: 12.5 }
+    ];
     const scenarioSteps = [
       { id: "welcome" },
       { id: "month" },
@@ -710,6 +717,15 @@
 
     function saveReferenceData(data) {
       localStorage.setItem(storageKey, JSON.stringify(data));
+    }
+
+    function migrateReferenceData() {
+      const migrationKey = `${storageKey}-pension-bands-2026`;
+      if (localStorage.getItem(migrationKey)) return;
+      const data = referenceData();
+      data.pensionBands = pensionBands2026.map(band => Object.assign({}, band));
+      saveReferenceData(data);
+      localStorage.setItem(migrationKey, "true");
     }
 
     function money(value) {
@@ -1242,6 +1258,7 @@
     });
 
     if (!localStorage.getItem(storageKey)) saveReferenceData(defaultData());
+    migrateReferenceData();
     populateStaticControls();
     state.allowances.push(makeLine());
     state.deductions.push(makeLine());
