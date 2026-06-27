@@ -285,7 +285,7 @@
     }
     @media print {
       :root, body { background: #fff; }
-      body::before, .app-header, #scenario-step, .payslip-actions, .step-actions, .line-panel, .override-panel, .notice {
+      body::before, .app-header, #scenario-step, .payslip-actions, .step-actions, .line-panel, .override-panel, .notice, .breakdown-link {
         display: none !important;
       }
       main { width: 100%; padding: 0; }
@@ -596,6 +596,7 @@
         <p class="field-hint">After changing allowances, deductions or overrides, click Recalculate payslip to refresh the estimate.</p>
       </div>
       <form class="line-panel">
+        <p class="field-hint">You can add allowances and deductions to this estimate. Common items are in the drop-down lists, or you can add your own user-defined allowances and deductions below.</p>
         <section class="scenario-panel">
           <div class="section-heading">
             <h2>Allowances</h2>
