@@ -413,14 +413,25 @@
               <div class="notice">This calculator gives an estimate only. Your actual payslip is the confirmed record of your pay, deductions and net pay.</div>
               <p class="field-hint">Copyright South West Yorkshire Teaching Partnership NHS FT.</p>
             </div>
+            <div class="question-step hidden" data-question-step="tax-basis">
+              <h2>How would you like us to estimate your tax?</h2>
+              <div>
+                <label for="tax-calculation-basis">Tax calculation basis</label>
+                <select id="tax-calculation-basis">
+                  <option value="cumulative">Use my previous pay and tax figures for a more accurate estimate</option>
+                  <option value="month1">Use a Week 1/Month 1 estimate</option>
+                </select>
+              </div>
+              <input id="cumulative-tax" class="hidden" type="checkbox" checked aria-hidden="true" tabindex="-1">
+              <p class="field-hint">The estimate is usually more accurate if you enter the taxable pay and tax paid figures from your previous month’s payslip. Choose Week 1/Month 1 if you do not want to enter those figures.</p>
+            </div>
             <div class="question-step hidden" data-question-step="month">
               <h2>Which payslip do you want to estimate?</h2>
               <div>
                 <label for="month">Payslip month</label>
                 <select id="month"></select>
               </div>
-              <label class="inline-checkbox"><input id="cumulative-tax" type="checkbox" checked> Calculate tax cumulatively</label>
-              <p class="field-hint">Most people should leave this ticked. Untick it only if your tax should be calculated on a Month 1 basis.</p>
+              <p class="field-hint">We use this to work out which previous payslip figures you should enter. If you choose April, the estimate will be treated like a Week 1/Month 1 calculation.</p>
             </div>
             <div class="question-step hidden" data-question-step="tax-code">
               <h2>What is your tax code?</h2>
@@ -680,10 +691,11 @@
     ];
     const scenarioSteps = [
       { id: "welcome" },
-      { id: "month" },
-      { id: "tax-code" },
+      { id: "tax-basis" },
       { id: "new-starter" },
-      { id: "ytd", visible: () => document.getElementById("cumulative-tax").checked && Number(document.getElementById("month").value) > 1 },
+      { id: "month", visible: () => document.getElementById("cumulative-tax").checked },
+      { id: "tax-code" },
+      { id: "ytd", visible: () => document.getElementById("new-starter").value === "yes" || (document.getElementById("cumulative-tax").checked && Number(document.getElementById("month").value) > 1) },
       { id: "ni-letter" },
       { id: "student-loan" },
       { id: "student-plan", visible: () => document.getElementById("has-student-loan").value === "yes" },
@@ -840,7 +852,13 @@
       return scenarioSteps.filter(step => !step.visible || step.visible());
     }
 
+    function syncCumulativeTaxChoice() {
+      const useCumulative = document.getElementById("tax-calculation-basis").value === "cumulative";
+      document.getElementById("cumulative-tax").checked = useCumulative;
+    }
+
     function renderScenarioStep() {
+      syncCumulativeTaxChoice();
       updateCumulativeFields();
       updateLoanFields();
       updatePayBasisFields();
@@ -905,10 +923,11 @@
     }
 
     function updateCumulativeFields() {
+      syncCumulativeTaxChoice();
       const monthNumber = Math.min(12, Math.max(1, Number(document.getElementById("month").value) || 1));
       const newStarter = document.getElementById("new-starter").value === "yes";
       const isCumulative = document.getElementById("cumulative-tax").checked;
-      const showPreviousPay = isCumulative && monthNumber > 1;
+      const showPreviousPay = newStarter || (isCumulative && monthNumber > 1);
       const previousMonthName = months[Math.max(0, monthNumber - 2)] || "the previous month";
       document.querySelectorAll(".ytd-field").forEach(field => {
         field.classList.toggle("hidden", !showPreviousPay);
@@ -1169,13 +1188,13 @@
       }
       const lineContainer = event.target.closest ? event.target.closest(".pay-line") : null;
       if (!lineContainer) {
-        if (["cumulative-tax", "month", "new-starter"].includes(event.target.id)) updateCumulativeFields();
+        if (["tax-calculation-basis", "cumulative-tax", "month", "new-starter"].includes(event.target.id)) updateCumulativeFields();
         if (event.target.id === "calculate-statutory-deductions") updateOverrideFields();
         if (["has-student-loan", "has-postgraduate-loan"].includes(event.target.id)) updateLoanFields();
         if (["use-custom-allowances", "use-custom-deductions"].includes(event.target.id)) updateCustomSections();
         if (event.target.id === "use-afc-rates") updatePayBasisFields();
         if (["monthly-salary", "contracted-hours"].includes(event.target.id)) updatePensionFields(false);
-        if (["cumulative-tax", "month", "new-starter", "has-student-loan", "has-postgraduate-loan", "use-afc-rates", "in-pension"].includes(event.target.id)) renderScenarioStep();
+        if (["tax-calculation-basis", "cumulative-tax", "month", "new-starter", "has-student-loan", "has-postgraduate-loan", "use-afc-rates", "in-pension"].includes(event.target.id)) renderScenarioStep();
         return;
       }
       const type = lineContainer.dataset.type;
@@ -1201,7 +1220,7 @@
       }
       const lineContainer = event.target.closest ? event.target.closest(".pay-line") : null;
       if (!lineContainer) {
-        if (["cumulative-tax", "month", "new-starter"].includes(event.target.id)) updateCumulativeFields();
+        if (["tax-calculation-basis", "cumulative-tax", "month", "new-starter"].includes(event.target.id)) updateCumulativeFields();
         if (event.target.id === "calculate-statutory-deductions") updateOverrideFields();
         if (["has-student-loan", "has-postgraduate-loan"].includes(event.target.id)) updateLoanFields();
         if (["use-custom-allowances", "use-custom-deductions"].includes(event.target.id)) updateCustomSections();
@@ -1212,7 +1231,7 @@
         if (event.target.id === "afc-band") updatePensionFields(false);
         if (event.target.id === "in-pension") updatePensionFields(false);
         if (event.target.id === "pension-band") state.pensionBandOverridden = true;
-        if (["cumulative-tax", "month", "new-starter", "has-student-loan", "has-postgraduate-loan", "use-afc-rates", "in-pension"].includes(event.target.id)) renderScenarioStep();
+        if (["tax-calculation-basis", "cumulative-tax", "month", "new-starter", "has-student-loan", "has-postgraduate-loan", "use-afc-rates", "in-pension"].includes(event.target.id)) renderScenarioStep();
         return;
       }
       const type = lineContainer.dataset.type;
