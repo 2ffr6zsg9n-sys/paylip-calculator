@@ -403,7 +403,7 @@
       <form class="scenario-panel" id="calculator-form">
         <section class="input-section">
           <h1>Pay scenario</h1>
-          <p class="field-hint">Answer one question at a time. You can go back and change anything before creating the payslip estimate.</p>
+          <p class="field-hint" id="wizard-intro">Answer one question at a time. You can go back and change anything before creating the payslip estimate.</p>
           <div class="wizard-progress" id="wizard-progress"></div>
           <div class="field-grid">
             <div class="question-step" data-question-step="welcome">
@@ -666,6 +666,7 @@
 
   <script>
     const storageKey = "nhs-paylip-calculator-reference-v5";
+    const backupStorageKey = "nhs-paylip-calculator-reference-backup";
     const maxLines = 10;
     const months = ["April", "May", "June", "July", "August", "September", "October", "November", "December", "January", "February", "March"];
     const pensionBands2026 = [
@@ -707,16 +708,37 @@
       return JSON.parse(document.getElementById("reference-data").textContent);
     }
 
-    function referenceData() {
+    function storedDataFrom(key) {
       try {
-        return JSON.parse(localStorage.getItem(storageKey)) || defaultData();
+        const stored = localStorage.getItem(key);
+        return stored ? JSON.parse(stored) : null;
       } catch {
-        return defaultData();
+        return null;
       }
     }
 
+    function bestStoredData() {
+      const primary = storedDataFrom(storageKey);
+      const backup = storedDataFrom(backupStorageKey);
+      if (!primary) return backup;
+      if (!backup) return primary;
+      const primaryRows = Array.isArray(primary.payElements) ? primary.payElements.length : 0;
+      const backupRows = Array.isArray(backup.payElements) ? backup.payElements.length : 0;
+      return backupRows > primaryRows ? backup : primary;
+    }
+
+    function referenceData() {
+      return bestStoredData() || defaultData();
+    }
+
     function saveReferenceData(data) {
-      localStorage.setItem(storageKey, JSON.stringify(data));
+      const saved = JSON.stringify(data);
+      localStorage.setItem(storageKey, saved);
+      localStorage.setItem(backupStorageKey, saved);
+    }
+
+    function ensureReferenceData() {
+      saveReferenceData(referenceData());
     }
 
     function migrateReferenceData() {
@@ -758,7 +780,7 @@
         id: newId(),
         name: "",
         amount: "",
-        taxable: false,
+        taxable: type === "Allowance",
         niable: type === "Allowance",
         pensionable: type === "Allowance"
       };
@@ -829,7 +851,10 @@
       document.querySelectorAll("[data-question-step]").forEach(step => {
         step.classList.toggle("hidden", step.dataset.questionStep !== currentStep.id);
       });
-      document.getElementById("wizard-progress").textContent = `Question ${state.scenarioStepIndex + 1} of ${visibleSteps.length}`;
+      const onWelcome = currentStep.id === "welcome";
+      document.getElementById("wizard-intro").classList.toggle("hidden", onWelcome);
+      document.getElementById("wizard-progress").classList.toggle("hidden", onWelcome);
+      document.getElementById("wizard-progress").textContent = onWelcome ? "" : `Question ${state.scenarioStepIndex} of ${visibleSteps.length - 1}`;
       document.getElementById("scenario-back").classList.toggle("hidden", state.scenarioStepIndex === 0);
       document.getElementById("scenario-next").classList.toggle("hidden", currentStep.id === "ready");
       document.getElementById("continue-to-payslip").classList.toggle("hidden", currentStep.id !== "ready");
@@ -980,7 +1005,7 @@
             <input data-field="amount" inputmode="decimal" value="${line.amount}">
           </div>
           <div class="flags">
-            <label><input data-field="taxable" type="checkbox"${line.taxable ? " checked" : ""}> Tax</label>
+            <label><input data-field="taxable" type="checkbox"${line.taxable ? " checked" : ""}> ${type === "Deduction" ? "Tax allowed" : "Tax"}</label>
             ${type === "Allowance" ? `
               <label><input data-field="niable" type="checkbox"${line.niable ? " checked" : ""}> NI</label>
               <label><input data-field="pensionable" type="checkbox"${line.pensionable ? " checked" : ""}> Pension</label>
@@ -1257,7 +1282,7 @@
       }
     });
 
-    if (!localStorage.getItem(storageKey)) saveReferenceData(defaultData());
+    ensureReferenceData();
     migrateReferenceData();
     populateStaticControls();
     state.allowances.push(makeLine());

@@ -241,7 +241,7 @@
 
     <section class="card">
       <h2>Backup and restore</h2>
-      <p>Use this to move your edited tables to another browser or keep a copy before making bigger changes.</p>
+      <p>Your edited tables are saved in this browser. Use this to move them to another browser, another device, or keep a copy before making bigger changes.</p>
       <textarea id="backup-text"></textarea>
       <div class="button-row">
         <button id="export-data" type="button">Export data</button>
@@ -253,6 +253,7 @@
 
   <script>
     const storageKey = "nhs-paylip-calculator-reference-v5";
+    const backupStorageKey = "nhs-paylip-calculator-reference-backup";
     const pensionBands2026 = [
       { id: "t1", from: 0, to: 13259, rate: 5.2 },
       { id: "t2", from: 13260, to: 28854, rate: 6.5 },
@@ -356,17 +357,40 @@
       return crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random());
     }
 
-    function loadData() {
+    function storedDataFrom(key) {
       try {
-        return JSON.parse(localStorage.getItem(storageKey)) || defaultData();
+        const stored = localStorage.getItem(key);
+        return stored ? JSON.parse(stored) : null;
       } catch {
-        return defaultData();
+        return null;
       }
     }
 
+    function bestStoredData() {
+      const primary = storedDataFrom(storageKey);
+      const backup = storedDataFrom(backupStorageKey);
+      if (!primary) return backup;
+      if (!backup) return primary;
+      const primaryRows = Array.isArray(primary.payElements) ? primary.payElements.length : 0;
+      const backupRows = Array.isArray(backup.payElements) ? backup.payElements.length : 0;
+      return backupRows > primaryRows ? backup : primary;
+    }
+
+    function loadData() {
+      return bestStoredData() || defaultData();
+    }
+
     function saveData(data, message) {
-      localStorage.setItem(storageKey, JSON.stringify(data));
+      const saved = JSON.stringify(data);
+      localStorage.setItem(storageKey, saved);
+      localStorage.setItem(backupStorageKey, saved);
       showMessage(message || "Saved.");
+    }
+
+    function ensureData() {
+      const saved = JSON.stringify(loadData());
+      localStorage.setItem(storageKey, saved);
+      localStorage.setItem(backupStorageKey, saved);
     }
 
     function migrateData() {
@@ -374,7 +398,7 @@
       if (localStorage.getItem(migrationKey)) return;
       const data = loadData();
       data.pensionBands = pensionBands2026.map(band => Object.assign({}, band));
-      localStorage.setItem(storageKey, JSON.stringify(data));
+      saveData(data, "NHS pension bands updated.");
       localStorage.setItem(migrationKey, "true");
     }
 
@@ -498,7 +522,7 @@
       updateCell(row.dataset.rowId, event.target.dataset.field, event.target.type === "checkbox" ? event.target.checked : event.target.value, inputType);
     });
 
-    if (!localStorage.getItem(storageKey)) saveData(defaultData(), "Defaults loaded from HTML.");
+    ensureData();
     migrateData();
     renderTabs();
     renderTable();
