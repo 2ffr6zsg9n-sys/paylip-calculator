@@ -487,14 +487,11 @@
                   <option value="yes">Yes</option>
                 </select>
               </div>
-            </div>
-            <div class="question-step hidden student-loan-field" data-question-step="student-plan">
-              <h2>Which student loan plan is shown on your last payslip?</h2>
-              <div>
+              <div class="student-loan-field hidden">
                 <label for="student-loan-plan">Student loan plan</label>
                 <select id="student-loan-plan"></select>
+                <p class="field-hint">Use the plan shown on your latest payslip if it is available. As a guide: Plan 1 is for older English or Welsh loans and Northern Ireland loans; Plan 2 is for most English and Welsh undergraduate students who started between 2012 and 2023; Plan 4 is for Scottish undergraduate loans; Plan 5 is for English undergraduate students who started from 2023 onwards.</p>
               </div>
-              <p class="field-hint">Use the plan shown on your latest payslip if it is available. As a guide: Plan 1 is for older English or Welsh loans and Northern Ireland loans; Plan 2 is for most English and Welsh undergraduate students who started between 2012 and 2023; Plan 4 is for Scottish undergraduate loans; Plan 5 is for English undergraduate students who started from 2023 onwards.</p>
             </div>
             <div class="question-step hidden" data-question-step="postgraduate-loan">
               <h2>Do you have a postgraduate loan?</h2>
@@ -551,14 +548,11 @@
               <div class="toggle-field">
                 <label><input id="in-pension" type="checkbox" checked> Yes, I am in the NHS Pension Scheme</label>
               </div>
-            </div>
-            <div class="question-step hidden pension-band-field" data-question-step="pension-band">
-              <h2>What pension percentage is shown on your latest payslip?</h2>
-              <div>
+              <div class="pension-band-field hidden">
                 <label for="pension-band">NHS pension contribution rate</label>
                 <select id="pension-band"></select>
+                <p class="field-hint">Choose the band that matches the pension percentage rate shown on your latest payslip. The calculator will suggest one, but you can change it.</p>
               </div>
-              <p class="field-hint">Choose the band that matches the pension percentage rate shown on your latest payslip. The calculator will suggest one, but you can change it.</p>
             </div>
             <div class="question-step hidden" data-question-step="taxable-benefits">
               <h2>Do you have any taxable benefits on your payslip?</h2>
@@ -570,14 +564,11 @@
                 </select>
               </div>
               <p class="field-hint">This might include benefits that increase your taxable pay but are not paid to you as cash.</p>
-            </div>
-            <div class="question-step hidden taxable-benefits-field" data-question-step="taxable-benefits-amount">
-              <h2>What taxable benefit amount is shown on your payslip?</h2>
-              <div>
+              <div class="taxable-benefits-field hidden">
                 <label for="taxable-benefits-amount">Taxable benefits amount</label>
                 <input id="taxable-benefits-amount" inputmode="decimal">
+                <p class="field-hint">Enter the taxable pay figure for the benefits shown on your payslip. This will be added to taxable pay for PAYE only.</p>
               </div>
-              <p class="field-hint">Enter the taxable pay figure for the benefits shown on your payslip. This will be added to taxable pay for PAYE only.</p>
             </div>
             <div class="question-step hidden" data-question-step="ready">
               <h2>Ready to create your estimate</h2>
@@ -736,16 +727,13 @@
       { id: "ytd", visible: () => document.getElementById("new-starter").value === "yes" || (document.getElementById("cumulative-tax").checked && Number(document.getElementById("month").value) > 1) },
       { id: "ni-letter" },
       { id: "student-loan" },
-      { id: "student-plan", visible: () => document.getElementById("has-student-loan").value === "yes" },
       { id: "postgraduate-loan" },
       { id: "pay-basis" },
       { id: "monthly-salary", visible: () => document.getElementById("use-afc-rates").value === "no" },
       { id: "contracted-hours", visible: () => document.getElementById("use-afc-rates").value === "yes" },
       { id: "afc-band", visible: () => document.getElementById("use-afc-rates").value === "yes" },
       { id: "pension-member" },
-      { id: "pension-band", visible: () => document.getElementById("in-pension").checked },
       { id: "taxable-benefits" },
-      { id: "taxable-benefits-amount", visible: () => document.getElementById("has-taxable-benefits").value === "yes" },
       { id: "ready" }
     ];
     const state = {
@@ -1030,6 +1018,7 @@
     function updatePensionFields(resetOverride) {
       if (resetOverride) state.pensionBandOverridden = false;
       const inPension = document.getElementById("in-pension").checked;
+      document.querySelector(".pension-band-field").classList.toggle("hidden", !inPension);
       if (!inPension || state.pensionBandOverridden) return;
       const data = referenceData();
       const likelyBand = pensionBandFor(monthlyBasePayForCalculation() * 12, data.pensionBands);
