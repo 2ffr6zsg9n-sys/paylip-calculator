@@ -385,9 +385,9 @@
     { "id": "Z", "letter": "Z", "description": "Under 21 deferment", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 2, "rateAboveUpperEarningsLimit": 2, "sortOrder": 160 }
   ],
   "loanPlans": [
-    { "id": "sl-plan-1", "loanType": "Student", "planName": "Plan 1", "monthlyThreshold": 2249.58, "deductionRate": 9, "sortOrder": 10 },
-    { "id": "sl-plan-2", "loanType": "Student", "planName": "Plan 2", "monthlyThreshold": 2372.91, "deductionRate": 9, "sortOrder": 20 },
-    { "id": "sl-plan-4", "loanType": "Student", "planName": "Plan 4", "monthlyThreshold": 2833.33, "deductionRate": 9, "sortOrder": 30 },
+    { "id": "sl-plan-1", "loanType": "Student", "planName": "Plan 1", "monthlyThreshold": 2241.66, "deductionRate": 9, "sortOrder": 10 },
+    { "id": "sl-plan-2", "loanType": "Student", "planName": "Plan 2", "monthlyThreshold": 2448.75, "deductionRate": 9, "sortOrder": 20 },
+    { "id": "sl-plan-4", "loanType": "Student", "planName": "Plan 4", "monthlyThreshold": 2816.25, "deductionRate": 9, "sortOrder": 30 },
     { "id": "sl-plan-5", "loanType": "Student", "planName": "Plan 5", "monthlyThreshold": 2083.33, "deductionRate": 9, "sortOrder": 40 },
     { "id": "pgl", "loanType": "Postgraduate", "planName": "Postgraduate Loan", "monthlyThreshold": 1750, "deductionRate": 6, "sortOrder": 50 }
   ]
@@ -700,6 +700,13 @@
       { id: "t5", from: 52779, to: 67668, rate: 10.7 },
       { id: "t6", from: 67669, to: null, rate: 12.5 }
     ];
+    const loanPlans2026 = [
+      { id: "sl-plan-1", loanType: "Student", planName: "Plan 1", monthlyThreshold: 2241.66, deductionRate: 9, sortOrder: 10 },
+      { id: "sl-plan-2", loanType: "Student", planName: "Plan 2", monthlyThreshold: 2448.75, deductionRate: 9, sortOrder: 20 },
+      { id: "sl-plan-4", loanType: "Student", planName: "Plan 4", monthlyThreshold: 2816.25, deductionRate: 9, sortOrder: 30 },
+      { id: "sl-plan-5", loanType: "Student", planName: "Plan 5", monthlyThreshold: 2083.33, deductionRate: 9, sortOrder: 40 },
+      { id: "pgl", loanType: "Postgraduate", planName: "Postgraduate Loan", monthlyThreshold: 1750, deductionRate: 6, sortOrder: 50 }
+    ];
     const scenarioSteps = [
       { id: "welcome" },
       { id: "tax-basis" },
@@ -768,12 +775,21 @@
     }
 
     function migrateReferenceData() {
-      const migrationKey = `${storageKey}-pension-bands-2026`;
-      if (localStorage.getItem(migrationKey)) return;
+      const pensionMigrationKey = `${storageKey}-pension-bands-2026`;
+      const loanMigrationKey = `${storageKey}-loan-plans-2026`;
       const data = referenceData();
-      data.pensionBands = pensionBands2026.map(band => Object.assign({}, band));
-      saveReferenceData(data);
-      localStorage.setItem(migrationKey, "true");
+      let changed = false;
+      if (!localStorage.getItem(pensionMigrationKey)) {
+        data.pensionBands = pensionBands2026.map(band => Object.assign({}, band));
+        localStorage.setItem(pensionMigrationKey, "true");
+        changed = true;
+      }
+      if (!localStorage.getItem(loanMigrationKey)) {
+        data.loanPlans = loanPlans2026.map(plan => Object.assign({}, plan));
+        localStorage.setItem(loanMigrationKey, "true");
+        changed = true;
+      }
+      if (changed) saveReferenceData(data);
     }
 
     function money(value) {
@@ -840,7 +856,8 @@
 
     function calculateLoan(amount, loanPlan) {
       if (!loanPlan) return 0;
-      return Math.max(0, amount - Number(loanPlan.monthlyThreshold || 0)) * ((Number(loanPlan.deductionRate) || 0) / 100);
+      const deduction = Math.max(0, amount - Number(loanPlan.monthlyThreshold || 0)) * ((Number(loanPlan.deductionRate) || 0) / 100);
+      return Math.floor(deduction);
     }
 
     function pensionRateFor(annualPensionablePay, bands) {
@@ -1159,7 +1176,7 @@
         payRow("PAYE", tax),
         payRow(`NI ${selectedNILetter?.letter || "A"}`, ni),
         payRow(`NHS Pension ${pensionRate.toFixed(1)}%`, finalPension),
-        selectedStudentLoanPlan ? payRow(selectedStudentLoanPlan.planName, studentLoan) : "",
+        selectedStudentLoanPlan ? payRow(`Student Loan: ${selectedStudentLoanPlan.planName}`, studentLoan) : "",
         selectedPostgraduateLoanPlan ? payRow(selectedPostgraduateLoanPlan.planName, postgraduateLoan) : "",
         ...allDeductions.filter(line => numberValue(line.amount) !== 0).map(line => payRow(line.name || "Deduction", Math.abs(numberValue(line.amount)))),
         payRow("Total deductions", grossDeductions + tax + ni + finalPension + studentLoan + postgraduateLoan, "", true)
