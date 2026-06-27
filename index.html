@@ -407,13 +407,12 @@
       <form class="scenario-panel" id="calculator-form">
         <section class="input-section">
           <h1>Pay scenario</h1>
-          <p class="field-hint" id="wizard-intro">Answer one question at a time. You can go back and change anything before creating the payslip estimate.</p>
           <div class="wizard-progress" id="wizard-progress"></div>
           <div class="field-grid">
             <div class="question-step" data-question-step="welcome">
               <h2>Welcome to the Paylip Calculator</h2>
               <p>This calculator can help you estimate your monthly net pay before your actual payslip is produced.</p>
-              <p>You will be asked one question at a time. You can go back if you need to change an answer, then add any extra allowances or deductions before calculating your estimate.</p>
+              <p class="field-hint">Privacy: no pay details are stored or sent anywhere. All calculations are made within your browser.</p>
               <div class="notice">This calculator gives an estimate only. Your actual payslip is the confirmed record of your pay, deductions and net pay.</div>
               <p class="field-hint">Copyright South West Yorkshire Teaching Partnership NHS FT.</p>
             </div>
@@ -604,7 +603,7 @@
           <span>Estimated net pay</span>
           <strong id="net-pay-bottom">£0.00</strong>
         </div>
-        <a class="breakdown-link" id="breakdown-link" href="breakdown.html" target="_blank" rel="noopener">View calculation breakdown</a>
+        <a class="breakdown-link" id="breakdown-link" href="breakdown.html" target="_blank">View calculation breakdown</a>
       </aside>
       <div class="step-actions">
         <button id="recalculate-payslip" type="button">Recalculate payslip</button>
@@ -650,6 +649,7 @@
       </form>
 
       <section class="override-panel">
+        <p class="field-hint wide-field">Override Basic Pay, income tax, NI, Pension, student loan and postgraduate loan:</p>
         <div class="wide-field">
           <label class="inline-checkbox"><input id="calculate-statutory-deductions" type="checkbox" checked> Calculate PAYE, NI, Pension</label>
         </div>
@@ -727,6 +727,8 @@
       scenarioStepIndex: 0,
       pensionBandOverridden: false
     };
+    let latestBreakdownData = null;
+    let breakdownWindow = null;
 
     function defaultData() {
       return JSON.parse(document.getElementById("reference-data").textContent);
@@ -882,7 +884,6 @@
         step.classList.toggle("hidden", step.dataset.questionStep !== currentStep.id);
       });
       const onWelcome = currentStep.id === "welcome";
-      document.getElementById("wizard-intro").classList.toggle("hidden", onWelcome);
       document.getElementById("wizard-progress").classList.toggle("hidden", onWelcome);
       document.getElementById("wizard-progress").textContent = onWelcome ? "" : `Question ${state.scenarioStepIndex} of ${visibleSteps.length - 1}`;
       document.getElementById("scenario-back").classList.toggle("hidden", state.scenarioStepIndex === 0);
@@ -1177,11 +1178,11 @@
         [isCumulative ? "Tax paid year to date after this payslip" : "Tax due without previous taxable pay figures", cumulativeTaxDue]
       ];
       document.getElementById("calculation-notes").innerHTML = breakdownRows.map(([label, value]) => `<div><dt>${label}</dt><dd>${money(value)}</dd></div>`).join("");
-      localStorage.setItem("nhs-paylip-calculator-breakdown", JSON.stringify({
+      latestBreakdownData = {
         updatedAt: new Date().toISOString(),
         netPay,
         rows: breakdownRows.map(([label, value]) => ({ label, value }))
-      }));
+      };
     }
 
     function addLine(type) {
@@ -1298,6 +1299,12 @@
         calculate();
         window.print();
       }
+      if (event.target.id === "breakdown-link") {
+        event.preventDefault();
+        calculate();
+        breakdownWindow = window.open(event.target.href, "_blank");
+        if (breakdownWindow) breakdownWindow.focus();
+      }
       if (event.target.id === "add-allowance") addLine("Allowance");
       if (event.target.id === "add-deduction") addLine("Deduction");
       if (event.target.id === "add-custom-allowance") {
@@ -1320,6 +1327,12 @@
           renderLineList(container.dataset.type);
         }
       }
+    });
+
+    window.addEventListener("message", event => {
+      if (event.source !== breakdownWindow) return;
+      if (!event.data || event.data.type !== "paylip-breakdown-request") return;
+      event.source.postMessage({ type: "paylip-breakdown-data", payload: latestBreakdownData }, "*");
     });
 
     ensureReferenceData();

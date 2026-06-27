@@ -80,7 +80,7 @@
       <div class="top">
         <div>
           <h1>Calculation breakdown</h1>
-          <p>For the latest estimate calculated in this browser</p>
+          <p>For the latest estimate from the calculator tab</p>
         </div>
         <strong id="net-pay">£0.00</strong>
       </div>
@@ -95,21 +95,25 @@
     }
 
     function render() {
-      const stored = localStorage.getItem("nhs-paylip-calculator-breakdown");
-      if (!stored) return;
-      try {
-        const data = JSON.parse(stored);
-        document.getElementById("net-pay").textContent = money(data.netPay);
-        document.getElementById("breakdown").innerHTML = (data.rows || []).map(row => (
-          `<div class="row"><dt>${row.label}</dt><dd>${money(row.value)}</dd></div>`
-        )).join("");
-        document.getElementById("empty-message").style.display = "none";
-      } catch {
-        document.getElementById("empty-message").textContent = "The saved breakdown could not be read. Return to the calculator and recalculate the estimate.";
-      }
+      document.getElementById("empty-message").textContent = "No breakdown has been received yet. Return to the calculator and use the breakdown link after creating or recalculating a payslip estimate.";
     }
 
+    function renderData(data) {
+      if (!data) return;
+      document.getElementById("net-pay").textContent = money(data.netPay);
+      document.getElementById("breakdown").innerHTML = (data.rows || []).map(row => (
+        `<div class="row"><dt>${row.label}</dt><dd>${money(row.value)}</dd></div>`
+      )).join("");
+      document.getElementById("empty-message").style.display = "none";
+    }
+
+    window.addEventListener("message", event => {
+      if (!event.data || event.data.type !== "paylip-breakdown-data") return;
+      renderData(event.data.payload);
+    });
+
     render();
+    if (window.opener) window.opener.postMessage({ type: "paylip-breakdown-request" }, "*");
   </script>
 </body>
 </html>
