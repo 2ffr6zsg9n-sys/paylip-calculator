@@ -667,7 +667,7 @@
       { id: "month" },
       { id: "tax-code" },
       { id: "new-starter" },
-      { id: "ytd", visible: () => document.getElementById("cumulative-tax").checked },
+      { id: "ytd", visible: () => document.getElementById("cumulative-tax").checked && Number(document.getElementById("month").value) > 1 },
       { id: "ni-letter" },
       { id: "student-loan" },
       { id: "student-plan", visible: () => document.getElementById("has-student-loan").value === "yes" },
@@ -860,7 +860,7 @@
       const monthNumber = Math.min(12, Math.max(1, Number(document.getElementById("month").value) || 1));
       const newStarter = document.getElementById("new-starter").value === "yes";
       const isCumulative = document.getElementById("cumulative-tax").checked;
-      const showPreviousPay = isCumulative;
+      const showPreviousPay = isCumulative && monthNumber > 1;
       const previousMonthName = months[Math.max(0, monthNumber - 2)] || "the previous month";
       document.querySelectorAll(".ytd-field").forEach(field => {
         field.classList.toggle("hidden", !showPreviousPay);
@@ -873,14 +873,10 @@
         : `Year-to-date tax paid up to ${previousMonthName}`;
       document.getElementById("previous-taxable-hint").textContent = newStarter
         ? "Please enter the taxable pay figure from your P45, if available."
-        : monthNumber === 1
-          ? "For an April estimate, enter any year-to-date taxable pay already shown on your payslip. Leave this blank if there is none."
-          : `Please enter the year-to-date taxable pay from the bottom left-hand side of the latest payslip before this one, normally the ${previousMonthName} payslip. Do not enter the monthly taxable pay figure.`;
+        : `Please enter the year-to-date taxable pay from the bottom left-hand side of the latest payslip before this one, normally the ${previousMonthName} payslip. Do not enter the monthly taxable pay figure.`;
       document.getElementById("previous-tax-paid-hint").textContent = newStarter
         ? "Please enter the tax paid figure from your P45, if available."
-        : monthNumber === 1
-          ? "For an April estimate, enter any year-to-date tax paid already shown on your payslip. Leave this blank if there is none."
-          : `Please enter the year-to-date tax paid from the bottom left-hand side of the latest payslip before this one, normally the ${previousMonthName} payslip. Do not enter the monthly tax paid figure.`;
+        : `Please enter the year-to-date tax paid from the bottom left-hand side of the latest payslip before this one, normally the ${previousMonthName} payslip. Do not enter the monthly tax paid figure.`;
     }
 
     function updatePayBasisFields() {
@@ -1004,7 +1000,7 @@
       const monthlyBasePay = monthlyBasePayFromInputs();
       const monthNumber = Math.min(12, Math.max(1, Number(document.getElementById("month").value) || 1));
       const newStarter = document.getElementById("new-starter").value === "yes";
-      const isCumulative = document.getElementById("cumulative-tax").checked;
+      const isCumulative = document.getElementById("cumulative-tax").checked && monthNumber > 1;
       const previousTaxable = isCumulative ? numberValue(document.getElementById("previous-taxable").value) : 0;
       const previousTax = isCumulative ? numberValue(document.getElementById("previous-tax-paid").value) : 0;
       const allowanceAmount = taxCodeAllowance(document.getElementById("tax-code").value);
