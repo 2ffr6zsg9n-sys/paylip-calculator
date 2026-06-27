@@ -1,6 +1,6 @@
-# Paylip Calculator
+# Payslip Calculator
 
-Standalone static NHS paylip calculator.
+Standalone static NHS payslip calculator.
 
 Open `index.html` for the calculator, `admin.html` for reference data, and `breakdown.html` for the detailed calculation breakdown created from the latest estimate in the browser.
 
