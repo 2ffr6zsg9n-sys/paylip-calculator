@@ -254,7 +254,7 @@
       padding: 14px 16px;
       font-weight: 700;
     }
-    .pension-rate-hint, .taxable-benefit-hint { margin-top: 18px; }
+    .pension-rate-hint, .student-loan-hint, .taxable-benefit-hint { margin-top: 18px; }
     .hidden { display: none !important; }
     .step-actions {
       display: flex;
@@ -1181,7 +1181,7 @@
               <div class="student-loan-field hidden">
                 <label for="student-loan-plan">Student loan plan</label>
                 <select id="student-loan-plan"></select>
-                <p class="field-hint">Use the plan shown on your latest payslip if it is available. As a guide: Plan 1 is for older English or Welsh loans and Northern Ireland loans; Plan 2 is for most English and Welsh undergraduate students who started between 2012 and 2023; Plan 4 is for Scottish undergraduate loans; Plan 5 is for English undergraduate students who started from 2023 onwards.</p>
+                <p class="field-hint student-loan-hint">Use the plan shown on your latest payslip if it is available. As a guide: Plan 1 is for older English or Welsh loans and Northern Ireland loans; Plan 2 is for most English and Welsh undergraduate students who started between 2012 and 2023; Plan 4 is for Scottish undergraduate loans; Plan 5 is for English undergraduate students who started from 2023 onwards.</p>
               </div>
             </div>
             <div class="question-step hidden" data-question-step="postgraduate-loan">
@@ -1512,6 +1512,10 @@
       return Number(value || 0).toLocaleString("en-GB", { style: "currency", currency: "GBP" });
     }
 
+    function breakdownValue(value) {
+      return typeof value === "number" ? money(value) : String(value || "Not selected");
+    }
+
     function numberValue(value) {
       const parsed = Number(String(value || "").replace(/[£,\s]/g, ""));
       return Number.isFinite(parsed) ? parsed : 0;
@@ -1836,9 +1840,13 @@
       const monthlyBasePay = monthlyBasePayForCalculation();
       const monthNumber = Math.min(12, Math.max(1, Number(document.getElementById("month").value) || 1));
       const newStarter = document.getElementById("new-starter").value === "yes";
-      const isCumulative = document.getElementById("cumulative-tax").checked && monthNumber > 1;
-      const previousTaxable = isCumulative ? numberValue(document.getElementById("previous-taxable").value) : 0;
-      const previousTax = isCumulative ? numberValue(document.getElementById("previous-tax-paid").value) : 0;
+      const previousTaxableInput = document.getElementById("previous-taxable").value.trim();
+      const previousTaxPaidInput = document.getElementById("previous-tax-paid").value.trim();
+      const wantsCumulative = document.getElementById("cumulative-tax").checked && monthNumber > 1;
+      const hasPreviousTaxFigures = previousTaxableInput !== "" && previousTaxPaidInput !== "";
+      const isCumulative = wantsCumulative && hasPreviousTaxFigures;
+      const previousTaxable = isCumulative ? numberValue(previousTaxableInput) : 0;
+      const previousTax = isCumulative ? numberValue(previousTaxPaidInput) : 0;
       const taxCode = document.getElementById("tax-code").value;
       const taxableBenefits = document.getElementById("has-taxable-benefits").value === "yes"
         ? numberValue(document.getElementById("taxable-benefits-amount").value)
@@ -1880,6 +1888,10 @@
       const kCodeTaxCap = grossPay * 0.5;
       const calculatedTax = isKTaxCode(taxCode) ? Math.min(uncappedCalculatedTax, kCodeTaxCap) : uncappedCalculatedTax;
       const cumulativeTaxDue = previousTax + calculatedTax;
+      const useAfcRates = document.getElementById("use-afc-rates").value === "yes";
+      const selectedAfcRate = useAfcRates
+        ? data.afcRates.find(rate => rate.id === document.getElementById("afc-band").value)
+        : null;
       const selectedNILetter = data.niLetters.find(letter => letter.id === document.getElementById("ni-letter").value)
         || data.niLetters.find(letter => letter.letter === "A")
         || data.niLetters[0];
@@ -1922,23 +1934,35 @@
         ...allDeductions.filter(line => numberValue(line.amount) !== 0).map(line => payRow(line.name || "Deduction", Math.abs(numberValue(line.amount)))),
         payRow("Total deductions", grossDeductions + tax + ni + finalPension + studentLoan + postgraduateLoan, "", true)
       ].join("");
+      const taxBasisLabel = isCumulative ? "Cumulative" : "Non-cumulative / Month 1";
+      const afcLabel = selectedAfcRate
+        ? `Band ${selectedAfcRate.band} ${selectedAfcRate.payStep} - ${money(selectedAfcRate.annualSalary)}`
+        : "Not used";
+      const studentLoanPlanLabel = selectedStudentLoanPlan ? selectedStudentLoanPlan.planName : "None";
+      const postgraduateLoanPlanLabel = selectedPostgraduateLoanPlan ? selectedPostgraduateLoanPlan.planName : "None";
       const breakdownRows = [
+        ["Tax code", String(taxCode || "")],
+        ["Tax basis", taxBasisLabel],
         ["Previous taxable pay entered", previousTaxable],
-        ["Taxable pay this month", taxableThisMonth],
-        ["Taxable benefits included", taxableBenefits],
-        ["Taxable pay year to date used", cumulativeTaxablePayUsed],
         ["Previous tax paid entered", previousTax],
+        ["Taxable pay year to date used", cumulativeTaxablePayUsed],
+        [isCumulative ? "Tax paid year to date after this payslip" : "Tax due without previous taxable pay figures", cumulativeTaxDue],
+        ["Taxable pay this month", taxableThisMonth],
+        ["Tax due this month", calculatedTax],
+        ["NI letter", selectedNILetter?.letter || "A"],
         [`NI pay this month (${selectedNILetter?.letter || "A"})`, niableThisMonth],
+        ["Student loan plan", studentLoanPlanLabel],
+        ["Postgraduate loan plan", postgraduateLoanPlanLabel],
         ["Student/postgraduate loan pay", niableThisMonth],
         ["Pensionable pay this month", pensionableThisMonth],
+        ...(selectedAfcRate ? [["Agenda for Change salary", afcLabel], ["Contracted hours entered", String(numberValue(document.getElementById("contracted-hours").value))]] : []),
+        ["Taxable benefits included", taxableBenefits],
         ["Current month allowance used", currentMonthAllowance],
         ["Taxable pay after current month allowance", taxableThisMonthAfterAllowance],
         ["Taxable pay used for PAYE after rounding", taxablePayUsedForTax],
-        ...(isKTaxCode(taxCode) ? [["K code PAYE cap", kCodeTaxCap]] : []),
-        ["Tax due this month", calculatedTax],
-        [isCumulative ? "Tax paid year to date after this payslip" : "Tax due without previous taxable pay figures", cumulativeTaxDue]
+        ...(isKTaxCode(taxCode) ? [["K code PAYE cap", kCodeTaxCap]] : [])
       ];
-      document.getElementById("calculation-notes").innerHTML = breakdownRows.map(([label, value]) => `<div><dt>${label}</dt><dd>${money(value)}</dd></div>`).join("");
+      document.getElementById("calculation-notes").innerHTML = breakdownRows.map(([label, value]) => `<div><dt>${label}</dt><dd>${breakdownValue(value)}</dd></div>`).join("");
       latestBreakdownData = {
         updatedAt: new Date().toISOString(),
         netPay,

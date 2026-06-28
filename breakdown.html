@@ -94,6 +94,10 @@
       return Number(value || 0).toLocaleString("en-GB", { style: "currency", currency: "GBP" });
     }
 
+    function breakdownValue(value) {
+      return typeof value === "number" ? money(value) : String(value || "Not selected");
+    }
+
     const breakdownStorageKey = "nhs-paylip-calculator-latest-breakdown";
 
     function storedBreakdown() {
@@ -118,7 +122,7 @@
       if (!data) return;
       document.getElementById("net-pay").textContent = money(data.netPay);
       document.getElementById("breakdown").innerHTML = (data.rows || []).map(row => (
-        `<div class="row"><dt>${row.label}</dt><dd>${money(row.value)}</dd></div>`
+        `<div class="row"><dt>${row.label}</dt><dd>${breakdownValue(row.value)}</dd></div>`
       )).join("");
       document.getElementById("empty-message").style.display = "none";
     }
