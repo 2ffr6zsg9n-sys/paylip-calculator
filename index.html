@@ -312,9 +312,10 @@
       .payslip-top { display: block; }
       .payslip-top strong { display: block; margin-top: 14px; font-size: 34px; }
     }
+    @page { size: A4 landscape; margin: 10mm; }
     @media print {
       :root, body { background: #fff; }
-      body::before, .app-header, #scenario-step, .payslip-actions, .step-actions, .line-panel, .override-panel, .notice, .breakdown-link {
+      body::before, .app-header, #scenario-step, .print-preview-actions, .payslip-actions, .step-actions, .line-panel, .override-panel, .notice, .breakdown-link {
         display: none !important;
       }
       main { width: 100%; padding: 0; }
