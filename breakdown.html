@@ -94,7 +94,23 @@
       return Number(value || 0).toLocaleString("en-GB", { style: "currency", currency: "GBP" });
     }
 
+    const breakdownStorageKey = "nhs-paylip-calculator-latest-breakdown";
+
+    function storedBreakdown() {
+      try {
+        const stored = localStorage.getItem(breakdownStorageKey);
+        return stored ? JSON.parse(stored) : null;
+      } catch {
+        return null;
+      }
+    }
+
     function render() {
+      const data = storedBreakdown();
+      if (data) {
+        renderData(data);
+        return;
+      }
       document.getElementById("empty-message").textContent = "No breakdown has been received yet. Return to the calculator and use the breakdown link after creating or recalculating a payslip estimate.";
     }
 
@@ -109,6 +125,7 @@
 
     window.addEventListener("message", event => {
       if (!event.data || event.data.type !== "paylip-breakdown-data") return;
+      if (event.data.payload) localStorage.setItem(breakdownStorageKey, JSON.stringify(event.data.payload));
       renderData(event.data.payload);
     });
 

@@ -129,82 +129,738 @@
   <script id="reference-data" type="application/json">
 {
   "payElements": [
-    { "id": "basic-pay", "name": "Basic pay", "type": "Allowance", "defaultAmount": 0, "taxable": true, "niable": true, "pensionable": true },
-    { "id": "unsocial-hours", "name": "Unsocial hours", "type": "Allowance", "defaultAmount": 0, "taxable": true, "niable": true, "pensionable": true },
-    { "id": "arrears", "name": "Arrears", "type": "Allowance", "defaultAmount": 0, "taxable": true, "niable": true, "pensionable": true },
-    { "id": "salary-sacrifice-car", "name": "Salary sacrifice car", "type": "Deduction", "defaultAmount": 0, "taxable": true, "niable": true, "pensionable": true },
-    { "id": "parking", "name": "Car parking", "type": "Deduction", "defaultAmount": 0, "taxable": false, "niable": false, "pensionable": false }
+    {
+      "id": "basic-pay",
+      "name": "Basic pay",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": true
+    },
+    {
+      "id": "unsocial-hours",
+      "name": "Unsocial hours",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": true
+    },
+    {
+      "id": "arrears",
+      "name": "Arrears",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": true
+    },
+    {
+      "id": "parking",
+      "name": "Union",
+      "type": "Deduction",
+      "defaultAmount": 0,
+      "taxable": false,
+      "niable": false,
+      "pensionable": false
+    },
+    {
+      "id": "b13502f8-f101-4160-b1db-60679dec145c",
+      "name": "Car Scheme",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": true
+    },
+    {
+      "id": "321ecb33-4b69-44b4-93d5-d7cbaaa84c3e",
+      "name": "Home Electronics",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": true
+    },
+    {
+      "id": "b95a55ec-6c4c-4a8c-a34e-0bcd019428db",
+      "name": "Overtime NP",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": false
+    },
+    {
+      "id": "1656082f-a986-4a80-9d73-900f6453274e",
+      "name": "Microhive",
+      "type": "Deduction",
+      "defaultAmount": 0,
+      "taxable": false,
+      "niable": false,
+      "pensionable": false
+    },
+    {
+      "id": "13f4243b-3378-4b0b-99d9-7bbe1be6739f",
+      "name": "Expenses",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": false,
+      "niable": false,
+      "pensionable": false
+    },
+    {
+      "id": "8fd4f1fc-e970-4251-aac0-85e9bad78122",
+      "name": "Expenses NP NT NNI",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": false,
+      "niable": false,
+      "pensionable": false
+    },
+    {
+      "id": "b585f241-68a8-4f23-b175-16b36860c8dc",
+      "name": "Expenses NP NT",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": false,
+      "niable": true,
+      "pensionable": false
+    },
+    {
+      "id": "3e1d45d8-6ddb-42a3-a70d-9dd9dff54536",
+      "name": "Additional Basic Pay",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": true
+    },
+    {
+      "id": "ce16f2e7-0510-493a-af21-35e542d02532",
+      "name": "Other Payment",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": true
+    },
+    {
+      "id": "b634174e-184b-462e-91ba-91a6cf183e6d",
+      "name": "Other Deduction",
+      "type": "Deduction",
+      "defaultAmount": 0,
+      "taxable": false,
+      "niable": false,
+      "pensionable": false
+    },
+    {
+      "id": "91b5a2ca-4e6a-4611-9b4b-1f9c825194b6",
+      "name": "Charitable Deduction",
+      "type": "Deduction",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": false,
+      "pensionable": false
+    },
+    {
+      "id": "ebc7d0d8-f5f2-424f-b6a1-d8ebab933f2d",
+      "name": "Arrears NP",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": false
+    },
+    {
+      "id": "06c691aa-4ba8-4494-8888-f50f82e77ac1",
+      "name": "Salary Sacrifce",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": true
+    },
+    {
+      "id": "751ec6b3-3e2c-4225-8ebd-0b774d749c38",
+      "name": "Business Mileage NP NT NNI",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": true
+    },
+    {
+      "id": "5469b072-7f67-415d-9097-01eba0e06aa6",
+      "name": "Business Mileage NP NT",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": false,
+      "pensionable": true
+    },
+    {
+      "id": "a2885727-7b20-400d-8411-7b8c9863b04c",
+      "name": "On Call (Pensionable)",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": true
+    },
+    {
+      "id": "4605aeec-d90f-4303-9108-c09ab5556973",
+      "name": "On Call (Non-Pensionable)",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": false
+    },
+    {
+      "id": "9a752af7-d0dc-4864-92f1-dc7889b38c27",
+      "name": "Enhancements",
+      "type": "Allowance",
+      "defaultAmount": 0,
+      "taxable": true,
+      "niable": true,
+      "pensionable": true
+    },
+    {
+      "id": "5645d0a2-0489-4659-b949-bdd72852eeec",
+      "name": "Lottery",
+      "type": "Deduction",
+      "defaultAmount": 0,
+      "taxable": false,
+      "niable": false,
+      "pensionable": false
+    },
+    {
+      "id": "26a16ad7-3b8f-4076-8ab2-85edf90a759f",
+      "name": "Health Scheme",
+      "type": "Deduction",
+      "defaultAmount": 0,
+      "taxable": false,
+      "niable": false,
+      "pensionable": false
+    }
   ],
   "afcRates": [
-    { "id": "b1-entry", "band": "1", "payStep": "Entry", "annualSalary": 25272, "sortOrder": 10 },
-    { "id": "b2-entry", "band": "2", "payStep": "Entry", "annualSalary": 25272, "sortOrder": 20 },
-    { "id": "b2-top", "band": "2", "payStep": "Top", "annualSalary": 25272, "sortOrder": 21 },
-    { "id": "b3-entry", "band": "3", "payStep": "Entry", "annualSalary": 25760, "sortOrder": 30 },
-    { "id": "b3-top", "band": "3", "payStep": "Top", "annualSalary": 27476, "sortOrder": 31 },
-    { "id": "b4-entry", "band": "4", "payStep": "Entry", "annualSalary": 28392, "sortOrder": 40 },
-    { "id": "b4-top", "band": "4", "payStep": "Top", "annualSalary": 31157, "sortOrder": 41 },
-    { "id": "b5-entry", "band": "5", "payStep": "Entry", "annualSalary": 32073, "sortOrder": 50 },
-    { "id": "b5-mid", "band": "5", "payStep": "Intermediate", "annualSalary": 34592, "sortOrder": 51 },
-    { "id": "b5-top", "band": "5", "payStep": "Top", "annualSalary": 39043, "sortOrder": 52 },
-    { "id": "b6-entry", "band": "6", "payStep": "Entry", "annualSalary": 39959, "sortOrder": 60 },
-    { "id": "b6-mid", "band": "6", "payStep": "Intermediate", "annualSalary": 42170, "sortOrder": 61 },
-    { "id": "b6-top", "band": "6", "payStep": "Top", "annualSalary": 48117, "sortOrder": 62 },
-    { "id": "b7-entry", "band": "7", "payStep": "Entry", "annualSalary": 49387, "sortOrder": 70 },
-    { "id": "b7-mid", "band": "7", "payStep": "Intermediate", "annualSalary": 51932, "sortOrder": 71 },
-    { "id": "b7-top", "band": "7", "payStep": "Top", "annualSalary": 56515, "sortOrder": 72 },
-    { "id": "b8a-entry", "band": "8a", "payStep": "Entry", "annualSalary": 57528, "sortOrder": 80 },
-    { "id": "b8a-mid", "band": "8a", "payStep": "Intermediate", "annualSalary": 60417, "sortOrder": 81 },
-    { "id": "b8a-top", "band": "8a", "payStep": "Top", "annualSalary": 64750, "sortOrder": 82 },
-    { "id": "b8b-entry", "band": "8b", "payStep": "Entry", "annualSalary": 66582, "sortOrder": 90 },
-    { "id": "b8b-mid", "band": "8b", "payStep": "Intermediate", "annualSalary": 70896, "sortOrder": 91 },
-    { "id": "b8b-top", "band": "8b", "payStep": "Top", "annualSalary": 77368, "sortOrder": 92 },
-    { "id": "b8c-entry", "band": "8c", "payStep": "Entry", "annualSalary": 79504, "sortOrder": 100 },
-    { "id": "b8c-mid", "band": "8c", "payStep": "Intermediate", "annualSalary": 84346, "sortOrder": 101 },
-    { "id": "b8c-top", "band": "8c", "payStep": "Top", "annualSalary": 91609, "sortOrder": 102 },
-    { "id": "b8d-entry", "band": "8d", "payStep": "Entry", "annualSalary": 94356, "sortOrder": 110 },
-    { "id": "b8d-mid", "band": "8d", "payStep": "Intermediate", "annualSalary": 100140, "sortOrder": 111 },
-    { "id": "b8d-top", "band": "8d", "payStep": "Top", "annualSalary": 108814, "sortOrder": 112 },
-    { "id": "b9-entry", "band": "9", "payStep": "Entry", "annualSalary": 112782, "sortOrder": 120 },
-    { "id": "b9-mid", "band": "9", "payStep": "Intermediate", "annualSalary": 119583, "sortOrder": 121 },
-    { "id": "b9-top", "band": "9", "payStep": "Top", "annualSalary": 129783, "sortOrder": 122 }
+    {
+      "id": "b1-entry",
+      "band": "1",
+      "payStep": "Entry",
+      "annualSalary": 25272,
+      "sortOrder": 10
+    },
+    {
+      "id": "b2-entry",
+      "band": "2",
+      "payStep": "Entry",
+      "annualSalary": 25272,
+      "sortOrder": 20
+    },
+    {
+      "id": "b2-top",
+      "band": "2",
+      "payStep": "Top",
+      "annualSalary": 25272,
+      "sortOrder": 21
+    },
+    {
+      "id": "b3-entry",
+      "band": "3",
+      "payStep": "Entry",
+      "annualSalary": 25760,
+      "sortOrder": 30
+    },
+    {
+      "id": "b3-top",
+      "band": "3",
+      "payStep": "Top",
+      "annualSalary": 27476,
+      "sortOrder": 31
+    },
+    {
+      "id": "b4-entry",
+      "band": "4",
+      "payStep": "Entry",
+      "annualSalary": 28392,
+      "sortOrder": 40
+    },
+    {
+      "id": "b4-top",
+      "band": "4",
+      "payStep": "Top",
+      "annualSalary": 31157,
+      "sortOrder": 41
+    },
+    {
+      "id": "b5-entry",
+      "band": "5",
+      "payStep": "Entry",
+      "annualSalary": 32073,
+      "sortOrder": 50
+    },
+    {
+      "id": "b5-mid",
+      "band": "5",
+      "payStep": "Intermediate",
+      "annualSalary": 34592,
+      "sortOrder": 51
+    },
+    {
+      "id": "b5-top",
+      "band": "5",
+      "payStep": "Top",
+      "annualSalary": 39043,
+      "sortOrder": 52
+    },
+    {
+      "id": "b6-entry",
+      "band": "6",
+      "payStep": "Entry",
+      "annualSalary": 39959,
+      "sortOrder": 60
+    },
+    {
+      "id": "b6-mid",
+      "band": "6",
+      "payStep": "Intermediate",
+      "annualSalary": 42170,
+      "sortOrder": 61
+    },
+    {
+      "id": "b6-top",
+      "band": "6",
+      "payStep": "Top",
+      "annualSalary": 48117,
+      "sortOrder": 62
+    },
+    {
+      "id": "b7-entry",
+      "band": "7",
+      "payStep": "Entry",
+      "annualSalary": 49387,
+      "sortOrder": 70
+    },
+    {
+      "id": "b7-mid",
+      "band": "7",
+      "payStep": "Intermediate",
+      "annualSalary": 51932,
+      "sortOrder": 71
+    },
+    {
+      "id": "b7-top",
+      "band": "7",
+      "payStep": "Top",
+      "annualSalary": 56515,
+      "sortOrder": 72
+    },
+    {
+      "id": "b8a-entry",
+      "band": "8a",
+      "payStep": "Entry",
+      "annualSalary": 57528,
+      "sortOrder": 80
+    },
+    {
+      "id": "b8a-mid",
+      "band": "8a",
+      "payStep": "Intermediate",
+      "annualSalary": 60417,
+      "sortOrder": 81
+    },
+    {
+      "id": "b8a-top",
+      "band": "8a",
+      "payStep": "Top",
+      "annualSalary": 64750,
+      "sortOrder": 82
+    },
+    {
+      "id": "b8b-entry",
+      "band": "8b",
+      "payStep": "Entry",
+      "annualSalary": 66582,
+      "sortOrder": 90
+    },
+    {
+      "id": "b8b-mid",
+      "band": "8b",
+      "payStep": "Intermediate",
+      "annualSalary": 70896,
+      "sortOrder": 91
+    },
+    {
+      "id": "b8b-top",
+      "band": "8b",
+      "payStep": "Top",
+      "annualSalary": 77368,
+      "sortOrder": 92
+    },
+    {
+      "id": "b8c-entry",
+      "band": "8c",
+      "payStep": "Entry",
+      "annualSalary": 79504,
+      "sortOrder": 100
+    },
+    {
+      "id": "b8c-mid",
+      "band": "8c",
+      "payStep": "Intermediate",
+      "annualSalary": 84346,
+      "sortOrder": 101
+    },
+    {
+      "id": "b8c-top",
+      "band": "8c",
+      "payStep": "Top",
+      "annualSalary": 91609,
+      "sortOrder": 102
+    },
+    {
+      "id": "b8d-entry",
+      "band": "8d",
+      "payStep": "Entry",
+      "annualSalary": 94356,
+      "sortOrder": 110
+    },
+    {
+      "id": "b8d-mid",
+      "band": "8d",
+      "payStep": "Intermediate",
+      "annualSalary": 100140,
+      "sortOrder": 111
+    },
+    {
+      "id": "b8d-top",
+      "band": "8d",
+      "payStep": "Top",
+      "annualSalary": 108814,
+      "sortOrder": 112
+    },
+    {
+      "id": "b9-entry",
+      "band": "9",
+      "payStep": "Entry",
+      "annualSalary": 112782,
+      "sortOrder": 120
+    },
+    {
+      "id": "b9-mid",
+      "band": "9",
+      "payStep": "Intermediate",
+      "annualSalary": 119583,
+      "sortOrder": 121
+    },
+    {
+      "id": "b9-top",
+      "band": "9",
+      "payStep": "Top",
+      "annualSalary": 129783,
+      "sortOrder": 122
+    }
   ],
   "pensionBands": [
-    { "id": "t1", "from": 0, "to": 13259, "rate": 5.2 },
-    { "id": "t2", "from": 13260, "to": 28854, "rate": 6.5 },
-    { "id": "t3", "from": 28855, "to": 35155, "rate": 8.3 },
-    { "id": "t4", "from": 35156, "to": 52778, "rate": 9.8 },
-    { "id": "t5", "from": 52779, "to": 67668, "rate": 10.7 },
-    { "id": "t6", "from": 67669, "to": null, "rate": 12.5 }
+    {
+      "id": "t1",
+      "from": 0,
+      "to": 13259,
+      "rate": 5.2
+    },
+    {
+      "id": "t2",
+      "from": 13260,
+      "to": 28854,
+      "rate": 6.5
+    },
+    {
+      "id": "t3",
+      "from": 28855,
+      "to": 35155,
+      "rate": 8.3
+    },
+    {
+      "id": "t4",
+      "from": 35156,
+      "to": 52778,
+      "rate": 9.8
+    },
+    {
+      "id": "t5",
+      "from": 52779,
+      "to": 67668,
+      "rate": 10.7
+    },
+    {
+      "id": "t6",
+      "from": 67669,
+      "to": null,
+      "rate": 12.5
+    }
   ],
   "taxBands": [
-    { "id": "basic", "name": "Basic rate", "from": 0, "to": 37700, "rate": 20 },
-    { "id": "higher", "name": "Higher rate", "from": 37700, "to": 125140, "rate": 40 },
-    { "id": "additional", "name": "Additional rate", "from": 125140, "to": null, "rate": 45 }
+    {
+      "id": "basic",
+      "name": "Basic rate",
+      "from": 0,
+      "to": 37700,
+      "rate": 20
+    },
+    {
+      "id": "higher",
+      "name": "Higher rate",
+      "from": 37700,
+      "to": 125140,
+      "rate": 40
+    },
+    {
+      "id": "additional",
+      "name": "Additional rate",
+      "from": 125140,
+      "to": null,
+      "rate": 45
+    }
   ],
   "niLetters": [
-    { "id": "A", "letter": "A", "description": "Standard", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 8, "rateAboveUpperEarningsLimit": 2, "sortOrder": 10 },
-    { "id": "B", "letter": "B", "description": "Married women and widows reduced rate", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 1.85, "rateAboveUpperEarningsLimit": 2, "sortOrder": 20 },
-    { "id": "C", "letter": "C", "description": "State pension age", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 0, "rateAboveUpperEarningsLimit": 0, "sortOrder": 30 },
-    { "id": "D", "letter": "D", "description": "Investment Zone deferment", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 2, "rateAboveUpperEarningsLimit": 2, "sortOrder": 40 },
-    { "id": "E", "letter": "E", "description": "Investment Zone reduced rate", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 1.85, "rateAboveUpperEarningsLimit": 2, "sortOrder": 50 },
-    { "id": "F", "letter": "F", "description": "Freeport", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 8, "rateAboveUpperEarningsLimit": 2, "sortOrder": 60 },
-    { "id": "H", "letter": "H", "description": "Apprentice under 25", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 8, "rateAboveUpperEarningsLimit": 2, "sortOrder": 70 },
-    { "id": "I", "letter": "I", "description": "Freeport reduced rate", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 1.85, "rateAboveUpperEarningsLimit": 2, "sortOrder": 80 },
-    { "id": "J", "letter": "J", "description": "Deferment", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 2, "rateAboveUpperEarningsLimit": 2, "sortOrder": 90 },
-    { "id": "K", "letter": "K", "description": "Investment Zone state pensioner", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 0, "rateAboveUpperEarningsLimit": 0, "sortOrder": 100 },
-    { "id": "L", "letter": "L", "description": "Freeport deferment", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 2, "rateAboveUpperEarningsLimit": 2, "sortOrder": 110 },
-    { "id": "M", "letter": "M", "description": "Under 21", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 8, "rateAboveUpperEarningsLimit": 2, "sortOrder": 120 },
-    { "id": "N", "letter": "N", "description": "Investment Zone", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 8, "rateAboveUpperEarningsLimit": 2, "sortOrder": 130 },
-    { "id": "S", "letter": "S", "description": "Freeport state pensioner", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 0, "rateAboveUpperEarningsLimit": 0, "sortOrder": 140 },
-    { "id": "V", "letter": "V", "description": "Veteran", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 8, "rateAboveUpperEarningsLimit": 2, "sortOrder": 150 },
-    { "id": "Z", "letter": "Z", "description": "Under 21 deferment", "monthlyLowerEarningsLimit": 559, "monthlyPrimaryThreshold": 1048, "monthlyUpperEarningsLimit": 4189, "rateToPrimaryThreshold": 0, "rateToUpperEarningsLimit": 2, "rateAboveUpperEarningsLimit": 2, "sortOrder": 160 }
+    {
+      "id": "A",
+      "letter": "A",
+      "description": "Standard",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 8,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 10
+    },
+    {
+      "id": "B",
+      "letter": "B",
+      "description": "Married women and widows reduced rate",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 1.85,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 20
+    },
+    {
+      "id": "C",
+      "letter": "C",
+      "description": "State pension age",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 0,
+      "rateAboveUpperEarningsLimit": 0,
+      "sortOrder": 30
+    },
+    {
+      "id": "D",
+      "letter": "D",
+      "description": "Investment Zone deferment",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 2,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 40
+    },
+    {
+      "id": "E",
+      "letter": "E",
+      "description": "Investment Zone reduced rate",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 1.85,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 50
+    },
+    {
+      "id": "F",
+      "letter": "F",
+      "description": "Freeport",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 8,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 60
+    },
+    {
+      "id": "H",
+      "letter": "H",
+      "description": "Apprentice under 25",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 8,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 70
+    },
+    {
+      "id": "I",
+      "letter": "I",
+      "description": "Freeport reduced rate",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 1.85,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 80
+    },
+    {
+      "id": "J",
+      "letter": "J",
+      "description": "Deferment",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 2,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 90
+    },
+    {
+      "id": "K",
+      "letter": "K",
+      "description": "Investment Zone state pensioner",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 0,
+      "rateAboveUpperEarningsLimit": 0,
+      "sortOrder": 100
+    },
+    {
+      "id": "L",
+      "letter": "L",
+      "description": "Freeport deferment",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 2,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 110
+    },
+    {
+      "id": "M",
+      "letter": "M",
+      "description": "Under 21",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 8,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 120
+    },
+    {
+      "id": "N",
+      "letter": "N",
+      "description": "Investment Zone",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 8,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 130
+    },
+    {
+      "id": "S",
+      "letter": "S",
+      "description": "Freeport state pensioner",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 0,
+      "rateAboveUpperEarningsLimit": 0,
+      "sortOrder": 140
+    },
+    {
+      "id": "V",
+      "letter": "V",
+      "description": "Veteran",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 8,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 150
+    },
+    {
+      "id": "Z",
+      "letter": "Z",
+      "description": "Under 21 deferment",
+      "monthlyLowerEarningsLimit": 559,
+      "monthlyPrimaryThreshold": 1048,
+      "monthlyUpperEarningsLimit": 4189,
+      "rateToPrimaryThreshold": 0,
+      "rateToUpperEarningsLimit": 2,
+      "rateAboveUpperEarningsLimit": 2,
+      "sortOrder": 160
+    }
   ],
   "loanPlans": [
-    { "id": "sl-plan-1", "loanType": "Student", "planName": "Plan 1", "monthlyThreshold": 2241.66, "deductionRate": 9, "sortOrder": 10 },
-    { "id": "sl-plan-2", "loanType": "Student", "planName": "Plan 2", "monthlyThreshold": 2448.75, "deductionRate": 9, "sortOrder": 20 },
-    { "id": "sl-plan-4", "loanType": "Student", "planName": "Plan 4", "monthlyThreshold": 2816.25, "deductionRate": 9, "sortOrder": 30 },
-    { "id": "sl-plan-5", "loanType": "Student", "planName": "Plan 5", "monthlyThreshold": 2083.33, "deductionRate": 9, "sortOrder": 40 },
-    { "id": "pgl", "loanType": "Postgraduate", "planName": "Postgraduate Loan", "monthlyThreshold": 1750, "deductionRate": 6, "sortOrder": 50 }
+    {
+      "id": "sl-plan-1",
+      "loanType": "Student",
+      "planName": "Plan 1",
+      "monthlyThreshold": 2241.66,
+      "deductionRate": 9,
+      "sortOrder": 10
+    },
+    {
+      "id": "sl-plan-2",
+      "loanType": "Student",
+      "planName": "Plan 2",
+      "monthlyThreshold": 2448.75,
+      "deductionRate": 9,
+      "sortOrder": 20
+    },
+    {
+      "id": "sl-plan-4",
+      "loanType": "Student",
+      "planName": "Plan 4",
+      "monthlyThreshold": 2816.25,
+      "deductionRate": 9,
+      "sortOrder": 30
+    },
+    {
+      "id": "sl-plan-5",
+      "loanType": "Student",
+      "planName": "Plan 5",
+      "monthlyThreshold": 2083.33,
+      "deductionRate": 9,
+      "sortOrder": 40
+    },
+    {
+      "id": "pgl",
+      "loanType": "Postgraduate",
+      "planName": "Postgraduate Loan",
+      "monthlyThreshold": 1750,
+      "deductionRate": 6,
+      "sortOrder": 50
+    }
   ]
 }
   </script>
@@ -376,15 +1032,23 @@
     function bestStoredData() {
       const primary = storedDataFrom(storageKey);
       const backup = storedDataFrom(backupStorageKey);
-      if (!primary) return backup;
-      if (!backup) return primary;
-      const primaryRows = Array.isArray(primary.payElements) ? primary.payElements.length : 0;
-      const backupRows = Array.isArray(backup.payElements) ? backup.payElements.length : 0;
-      return backupRows > primaryRows ? backup : primary;
+      const embedded = defaultData();
+      if (!primary && !backup) return embedded;
+      if (!primary) return bestReferenceData(backup, embedded);
+      if (!backup) return bestReferenceData(primary, embedded);
+      return bestReferenceData(primary, backup, embedded);
+    }
+
+    function bestReferenceData(...sets) {
+      return sets.filter(Boolean).sort((a, b) => {
+        const aRows = Array.isArray(a.payElements) ? a.payElements.length : 0;
+        const bRows = Array.isArray(b.payElements) ? b.payElements.length : 0;
+        return bRows - aRows;
+      })[0] || null;
     }
 
     function loadData() {
-      return bestStoredData() || defaultData();
+      return bestStoredData();
     }
 
     function saveData(data, message) {
