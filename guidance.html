@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Payslip Calculator Guidance</title>
+  <style>
+    :root {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #0b0c0c;
+      background: #f3f2f1;
+      --nhs-blue: #005eb8;
+      --nhs-dark-blue: #003f7e;
+      --nhs-light-blue: #e8f1fb;
+      --border: #b1b4b6;
+      --muted: #505a5f;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    body::before { content: ""; display: block; height: 10px; background: var(--nhs-blue); }
+    main { width: min(980px, calc(100% - 40px)); margin: 0 auto; padding: 28px 0 56px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: 40px; line-height: 1.08; margin-bottom: 20px; }
+    h2 { font-size: 27px; line-height: 1.15; margin: 30px 0 12px; }
+    h3 { font-size: 21px; margin: 22px 0 8px; }
+    p, li { font-size: 17px; line-height: 1.5; }
+    ul { margin-top: 0; padding-left: 24px; }
+    .app-header { display: flex; align-items: center; gap: 16px; margin-bottom: 26px; }
+    .nhs-mark {
+      display: inline-block;
+      padding: 5px 10px 3px;
+      background: var(--nhs-blue);
+      color: #fff;
+      font-size: 29px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+    .title-block { display: grid; gap: 2px; margin-right: auto; }
+    .title-block strong { color: var(--nhs-dark-blue); font-size: 25px; line-height: 1.05; }
+    .title-block span { color: var(--muted); font-size: 14px; }
+    .top-link, .button-link {
+      display: inline-block;
+      border: 2px solid var(--nhs-blue);
+      background: #fff;
+      color: var(--nhs-blue);
+      font-weight: 700;
+      padding: 10px 14px;
+      text-decoration: none;
+    }
+    .button-link {
+      background: var(--nhs-blue);
+      color: #fff;
+      box-shadow: 0 3px 0 var(--nhs-dark-blue);
+      border: 0;
+      margin-top: 8px;
+    }
+    .panel {
+      background: #fff;
+      border: 1px solid #d8dde0;
+      box-shadow: 0 2px 0 rgba(11, 12, 12, .08);
+      padding: 30px;
+    }
+    .notice {
+      margin: 20px 0;
+      border-left: 6px solid var(--nhs-blue);
+      background: var(--nhs-light-blue);
+      padding: 14px 16px;
+      font-weight: 700;
+    }
+    .section-list { display: grid; gap: 18px; margin-top: 14px; }
+    .section-list > section {
+      border-left: 6px solid var(--nhs-blue);
+      background: #f8f8f8;
+      padding: 18px;
+    }
+    .section-list h3 { margin-top: 0; }
+    @media (max-width: 680px) {
+      main { width: min(100% - 24px, 980px); }
+      .app-header { align-items: flex-start; flex-wrap: wrap; }
+      h1 { font-size: 34px; }
+      .panel { padding: 22px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="app-header">
+      <div class="nhs-mark">NHS</div>
+      <div class="title-block">
+        <strong>Payslip Calculator</strong>
+        <span>Guidance notes</span>
+      </div>
+      <a class="top-link" href="index.html">Back to calculator</a>
+    </header>
+
+    <section class="panel">
+      <h1>Guidance for using the Payslip Calculator</h1>
+      <p>Please read this guidance before using the calculator. The calculator is designed to help you estimate your current or next monthly payslip and understand how changes may affect your take-home pay.</p>
+      <div class="notice">This tool provides an estimate only. Your actual payslip remains the confirmed record of your pay, deductions and net pay.</div>
+
+      <h2>How the calculator works</h2>
+      <p>The calculator asks for details from your latest payslip, including your tax code, year-to-date taxable pay, year-to-date tax paid, NI letter and NHS Pension contribution percentage. It uses these details to estimate the PAYE tax, NI, Pension and any student loan deductions for the payslip you want to model.</p>
+      <p>The year-to-date taxable pay and year-to-date tax paid figures are the figures shown next to your year-to-date gross pay and NI letter in the bottom left-hand corner of your payslip. Do not use the monthly taxable pay or monthly tax paid figures.</p>
+      <p>You can enter your contracted hours and choose your Agenda for Change band, or enter a monthly salary figure. The app then produces an estimated payslip based on the details you have entered.</p>
+
+      <h2>Information to have ready</h2>
+      <ul>
+        <li>Your latest tax code.</li>
+        <li>Your year-to-date taxable pay.</li>
+        <li>Your year-to-date tax paid.</li>
+        <li>Your NI letter.</li>
+        <li>Your NHS Pension contribution percentage, if you are in the scheme.</li>
+        <li>Any student loan or postgraduate loan plan shown on your payslip.</li>
+        <li>Any taxable benefit figure shown in the notes on your most recent payslip.</li>
+      </ul>
+
+      <h2>Common uses</h2>
+      <div class="section-list">
+        <section>
+          <h3>Change of hours</h3>
+          <p>Use this when you want to estimate your take-home pay after increasing or reducing your contracted hours. Enter the hours you want to model and the calculator will estimate the effect on Basic Pay, Pension, tax, NI and net pay.</p>
+        </section>
+        <section>
+          <h3>Change of pay</h3>
+          <p>Use this when you want to see the effect of a promotion, increment or move to a different pay band. You can select a different Agenda for Change band or enter a different monthly salary figure to see how this may affect your estimated payslip.</p>
+        </section>
+        <section>
+          <h3>Change of payments or deductions</h3>
+          <p>Use this when you want to see the effect of adding or removing payments and deductions. This can help estimate the effect of taking out a new salary sacrifice arrangement, or the effect on take-home pay when a salary sacrifice comes to an end.</p>
+        </section>
+      </div>
+
+      <h2>Customising the payslip</h2>
+      <p>After the estimated payslip is created, you can add extra payments and deductions. Common items are available in the drop-down lists. You can also add your own user-defined payments or deductions and choose whether they affect PAYE, NI or Pension where those options are shown.</p>
+      <p>After adding or changing payments, deductions or overrides, use the recalculate button to refresh the estimate.</p>
+
+      <h2>Overriding Basic Pay and statutory deductions</h2>
+      <p>The calculator normally works out Basic Pay, PAYE, NI, Pension and student loan deductions for you. If you already know one of these figures, or want to test a specific amount, use the override option on the payslip screen.</p>
+      <p>When you choose the override option, Basic Pay is shown first, followed by PAYE, NI, Pension and any student loan fields that apply. Enter a value where you want to override the calculated amount. Leave a field blank to keep the calculated figure for that item.</p>
+
+      <h2>Locally stored data</h2>
+      <p>The app runs in your browser and does not send your details anywhere. It may save reference settings and the latest calculation breakdown locally on your device so the app works correctly. After viewing your payslip calculation, you can use the clear locally stored data option on the payslip screen to delete this data from your browser.</p>
+
+      <a class="button-link" href="index.html">Start the calculator</a>
+    </section>
+  </main>
+</body>
+</html>
