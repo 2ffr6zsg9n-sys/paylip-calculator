@@ -139,12 +139,64 @@
       width: 24px;
       min-height: 24px;
     }
+    .choice-select-hidden, .choice-select-label-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    .radio-choice-group {
+      border: 0;
+      padding: 0;
+      margin: 0;
+    }
+    .radio-choice-group legend {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 700;
+    }
+    .radio-choice-options {
+      display: grid;
+      gap: 10px;
+    }
+    .radio-choice {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-height: 42px;
+      margin: 0;
+      padding: 10px 12px;
+      border: 2px solid #0b0c0c;
+      background: #fff;
+      cursor: pointer;
+    }
+    .radio-choice:has(input:checked) {
+      border-color: var(--nhs-blue);
+      background: var(--nhs-light-blue);
+      box-shadow: inset 4px 0 0 var(--nhs-blue);
+    }
+    .radio-choice input {
+      width: 24px;
+      min-height: 24px;
+      margin: 0;
+      flex: 0 0 auto;
+    }
+    .radio-choice input:focus {
+      outline: 3px solid #ffdd00;
+      outline-offset: 0;
+      box-shadow: 0 0 0 2px #0b0c0c;
+    }
     .field-hint {
       color: var(--muted);
       font-size: 15px;
       line-height: 1.35;
       margin: -2px 0 8px;
     }
+    .ytd-guidance { margin-top: 18px; }
     .section-heading { display: flex; justify-content: space-between; gap: 18px; align-items: center; margin-bottom: 14px; }
     .section-heading h2 { margin: 0; }
     .line-list { display: grid; gap: 14px; }
@@ -305,6 +357,7 @@
       padding: 18px;
     }
     .local-data-panel p { margin: 0 0 14px; }
+    .print-disclaimer { display: none; }
     @media (max-width: 1180px) {
       .calculator-layout { grid-template-columns: 1fr; }
       .payslip { position: static; }
@@ -341,6 +394,14 @@
       .payslip-top p { color: #505a5f; }
       .payslip-columns { min-height: 0; }
       .calculation-notes { break-inside: avoid; }
+      .print-disclaimer {
+        display: block;
+        margin-top: 48px;
+        font-size: 10px;
+        line-height: 1.35;
+        color: #505a5f;
+      }
+      .print-disclaimer p { margin: 0 0 8px; }
     }
   </style>
 </head>
@@ -1113,7 +1174,7 @@
               <div>
                 <label for="tax-calculation-basis">Tax calculation basis</label>
                 <select id="tax-calculation-basis">
-                  <option value="cumulative">Use my previous pay and tax figures for a more accurate estimate</option>
+                  <option value="cumulative">Use the pay and tax figures from my last payslip (more accurate estimate)</option>
                   <option value="month1">Calculate without using previous taxable pay figures (less accurate)</option>
                 </select>
               </div>
@@ -1160,6 +1221,7 @@
                   <input id="previous-tax-paid" inputmode="decimal">
                 </div>
               </div>
+              <p class="field-hint ytd-guidance">The year-to-date taxable pay and year-to-date tax paid figures are the figures shown next to your year-to-date gross pay and NI letter in the bottom left-hand corner of your payslip.</p>
             </div>
             <div class="question-step hidden" data-question-step="ni-letter">
               <h2>What is your NI category letter?</h2>
@@ -1181,7 +1243,7 @@
               <div class="student-loan-field hidden">
                 <label for="student-loan-plan">Student loan plan</label>
                 <select id="student-loan-plan"></select>
-                <p class="field-hint student-loan-hint">Use the plan shown on your latest payslip if it is available. As a guide: Plan 1 is for older English or Welsh loans and Northern Ireland loans; Plan 2 is for most English and Welsh undergraduate students who started between 2012 and 2023; Plan 4 is for Scottish undergraduate loans; Plan 5 is for English undergraduate students who started from 2023 onwards.</p>
+                <p class="field-hint student-loan-hint">Plan 1 is for older English or Welsh loans and Northern Ireland loans.<br>Plan 2 is for most English and Welsh undergraduate students who started between 2012 and 2023.<br>Plan 4 is for Scottish undergraduate loans.<br>Plan 5 is for English undergraduate students who started from 2023 onwards.</p>
               </div>
             </div>
             <div class="question-step hidden" data-question-step="postgraduate-loan">
@@ -1311,6 +1373,10 @@
         </div>
         <a class="breakdown-link" id="breakdown-link" href="breakdown.html" target="_blank">View calculation breakdown</a>
       </aside>
+      <section class="print-disclaimer" aria-label="Disclaimer">
+        <p>This tool should be used with caution. You should not make critical financial, employment or personal decisions based solely on the estimate provided by the calculator.</p>
+        <p>The Trust accepts no responsibility or liability for any loss, decision or action taken as a result of using the calculation or estimate produced by this tool.</p>
+      </section>
       <div class="step-actions">
         <button id="recalculate-payslip" type="button">Recalculate payslip</button>
         <p class="field-hint">After changing Basic Pay, payments, deductions or overrides, click Recalculate payslip to refresh the estimate.</p>
@@ -1670,6 +1736,77 @@
         .sort((a, b) => a.sortOrder - b.sortOrder)
         .map(plan => `<option value="${plan.id}">${plan.planName}</option>`)
         .join("");
+    }
+
+    function enhanceSelectAsRadioChoice(id) {
+      const select = document.getElementById(id);
+      if (!select) return;
+      if (select.dataset.radioEnhanced === "true") {
+        syncRadioChoice(select);
+        return;
+      }
+      const label = document.querySelector(`label[for="${id}"]`);
+      const fieldset = document.createElement("fieldset");
+      const legend = document.createElement("legend");
+      const options = document.createElement("div");
+
+      fieldset.className = "radio-choice-group";
+      fieldset.dataset.radioChoiceFor = id;
+      legend.textContent = label ? label.textContent : "Choose an option";
+      options.className = "radio-choice-options";
+      fieldset.append(legend, options);
+
+      select.classList.add("choice-select-hidden");
+      select.setAttribute("aria-hidden", "true");
+      select.tabIndex = -1;
+      if (label) label.classList.add("choice-select-label-hidden");
+      select.insertAdjacentElement("afterend", fieldset);
+      select.dataset.radioEnhanced = "true";
+
+      Array.from(select.options).forEach(option => {
+        const choiceLabel = document.createElement("label");
+        const radio = document.createElement("input");
+        const text = document.createElement("span");
+
+        choiceLabel.className = "radio-choice";
+        radio.type = "radio";
+        radio.name = `${id}-choice`;
+        radio.value = option.value;
+        radio.checked = option.selected;
+        radio.disabled = option.disabled;
+        text.textContent = option.textContent;
+        choiceLabel.append(radio, text);
+        options.append(choiceLabel);
+
+        radio.addEventListener("change", () => {
+          if (!radio.checked) return;
+          select.value = radio.value;
+          select.dispatchEvent(new Event("input", { bubbles: true }));
+          select.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+      });
+
+      select.addEventListener("change", () => syncRadioChoice(select));
+      syncRadioChoice(select);
+    }
+
+    function syncRadioChoice(select) {
+      document
+        .querySelectorAll(`[data-radio-choice-for="${select.id}"] input[type="radio"]`)
+        .forEach(radio => {
+          radio.checked = radio.value === select.value;
+        });
+    }
+
+    function enhanceRadioChoices() {
+      [
+        "tax-calculation-basis",
+        "new-starter",
+        "has-student-loan",
+        "has-postgraduate-loan",
+        "use-afc-rates",
+        "has-taxable-benefits"
+      ].forEach(enhanceSelectAsRadioChoice);
     }
 
     function updateLoanFields() {
@@ -2145,6 +2282,7 @@
     ensureReferenceData();
     migrateReferenceData();
     populateStaticControls();
+    enhanceRadioChoices();
     state.allowances.push(makeLine());
     state.deductions.push(makeLine());
     renderLineList("Allowance");
